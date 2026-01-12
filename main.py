@@ -17,10 +17,10 @@ def load_expenses():
     try:
         with open('expenses.json', 'r') as file:
             expenses=json.load(file)
-            print(f"Loaded {len(expenses)} expenses") # Debug line
+            print(f"Loaded {len(expenses)} expenses") 
     except FileNotFoundError:
         expenses=[]
-        print("No previous expenses found")  # Debug line
+        print("No previous expenses found") 
 load_expenses()
 
 
@@ -45,8 +45,7 @@ def Add_Expenses():
         'date':date
         })
     
-    print(f"DEBUG: expenses list now has {len(expenses)} items")
-    print(f"DEBUG: Last expense added: {expenses[-1]}")
+    print(f"Expenses list now has {len(expenses)} items")
 
     save_expenses()
 
@@ -69,10 +68,12 @@ def export_to_csv(expenses_to_export,filename):
     if not expenses_to_export:
         print("No data to export. ")
         return
+    
     with open(filename, 'w', newline='') as file:
         writer=csv.writer(file)
         #header row
         writer.writerow(['Date','Amount','Category','Description'])
+
         for e in expenses_to_export:
             writer.writerow([
                 e.get('date', 'No Date'),
@@ -80,6 +81,7 @@ def export_to_csv(expenses_to_export,filename):
                 e['category'],
                 e['description']
             ])
+
     print(f"Exported to {filename}\n")
 
 
@@ -93,13 +95,16 @@ def Filter_by_Category():
     if not expenses:
         print("\nNo Expenses Yet.\n")
         return
+    
     category=input("Enter category to filter: ").lower()
     found=False
     print()
+
     for i,e in enumerate(expenses, start=1):
         if e['category'].lower()==category:
             print(f"{i}.{e.get('date', 'no date')} | ₹{e['amount']} | {e['category']} | {e['description']}")
             found=True
+
     if not found:
         print("No expenses found in this category.")
     print()
@@ -109,6 +114,7 @@ def filter_by_date():
     if not expenses:
         print("\nNo expenses yet to filter.\n")
         return
+    
     start_date=input("Enter start date (YYYY-MM-DD): ")
     end_date=input("Enter end date (YYYY-MM-DD): ")
 
